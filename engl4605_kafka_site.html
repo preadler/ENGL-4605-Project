@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGL 4605 — The Metamorphosis</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F4EE;
+    --text: #1A1916;
+    --text-muted: #6B6860;
+    --border: #D8D4CC;
+    --green-bg: #C8DFA0; --green-text: #254A07;
+    --purple-bg: #D0CDFB; --purple-text: #342D96;
+    --coral-bg: #F7C9B7; --coral-text: #6E2510;
+    --accent: #2C2C2A;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-bottom: 1.5px solid var(--accent);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 50;
+  }
+  .nav-brand { font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 4rem 2rem 3rem;
+    border-bottom: 1.5px solid var(--accent);
+  }
+  .hero-bg-bugs {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .hero-bg-bugs span {
+    position: absolute;
+    font-size: 32px;
+    opacity: 0.07;
+    user-select: none;
+  }
+  .hero-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 4px 11px;
+    border-radius: 3px;
+    margin-bottom: 1.2rem;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(34px, 6vw, 54px);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 1.2rem;
+    max-width: 600px;
+  }
+  .hero-title em { font-style: italic; }
+  .hero-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .hero-meta strong { color: var(--text); font-weight: 500; }
+
+  /* SECTIONS */
+  .section { padding: 2.5rem 2rem; border-bottom: 1px solid var(--border); }
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+  }
+
+  /* KEY */
+  .key-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+  .key-card { border-radius: 10px; padding: 1rem 1.1rem; }
+  .key-card.green { background: var(--green-bg); color: var(--green-text); }
+  .key-card.purple { background: var(--purple-bg); color: var(--purple-text); }
+  .key-card.coral { background: var(--coral-bg); color: var(--coral-text); }
+  .key-card-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.75; margin-bottom: 0.35rem; }
+  .key-card-text { font-size: 13px; font-weight: 500; line-height: 1.4; }
+
+  /* ESSAY */
+  .essay-note { font-size: 13px; color: var(--text-muted); margin-bottom: 1.25rem; font-style: italic; }
+  .theme-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.25rem; }
+  .pill { font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 20px; }
+  .pill-green { background: var(--green-bg); color: var(--green-text); }
+  .pill-purple { background: var(--purple-bg); color: var(--purple-text); }
+  .pill-coral { background: var(--coral-bg); color: var(--coral-text); }
+
+  .essay-body { font-size: 14.5px; line-height: 1.85; max-width: 760px; }
+  .essay-body p { margin-bottom: 1.1rem; }
+
+  .hl {
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 1px 3px;
+    transition: filter 0.15s;
+  }
+  .hl:hover { filter: brightness(0.88); }
+  .hl-green { background: var(--green-bg); color: var(--green-text); }
+  .hl-purple { background: var(--purple-bg); color: var(--purple-text); }
+  .hl-coral { background: var(--coral-bg); color: var(--coral-text); }
+
+  /* CLOSE READING */
+  .cr-intro { font-size: 13.5px; color: var(--text-muted); max-width: 640px; margin-bottom: 1.75rem; line-height: 1.7; }
+  .analysis-card {
+    background: #EFECE5;
+    border-radius: 12px;
+    padding: 1.25rem 1.4rem;
+    margin-bottom: 1rem;
+    border: 0.5px solid var(--border);
+  }
+  .analysis-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+  .quote-block {
+    border-left: 3px solid var(--purple-text);
+    background: var(--purple-bg);
+    color: var(--purple-text);
+    border-radius: 0 8px 8px 0;
+    padding: 0.9rem 1.2rem;
+    margin: 0.75rem 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    line-height: 1.75;
+    font-style: italic;
+  }
+  .quote-block.green { border-color: var(--green-text); background: var(--green-bg); color: var(--green-text); }
+  .quote-block.coral { border-color: var(--coral-text); background: var(--coral-bg); color: var(--coral-text); }
+  .analysis-body { font-size: 13.5px; line-height: 1.72; color: #3A3830; }
+
+  /* WORKS CITED */
+  .works-cited { font-size: 13px; line-height: 1.75; color: var(--text-muted); max-width: 700px; }
+  .works-cited p { margin-bottom: 0.6rem; padding-left: 1.5rem; text-indent: -1.5rem; }
+
+  /* FOOTER */
+  footer {
+    padding: 1.5rem 2rem;
+    border-top: 1.5px solid var(--accent);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .footer-left { font-family: 'Playfair Display', serif; font-size: 14px; font-style: italic; }
+  .footer-right { font-size: 12px; color: var(--text-muted); }
+
+  /* POPUP */
+  .popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20,18,14,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .popup-overlay.open { display: flex; }
+  .popup {
+    background: var(--bg);
+    border-radius: 14px;
+    padding: 1.75rem;
+    max-width: 440px;
+    width: 100%;
+    border: 1px solid var(--border);
+    position: relative;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  }
+  .popup-close {
+    position: absolute; top: 14px; right: 16px;
+    font-size: 20px; cursor: pointer;
+    color: var(--text-muted);
+    background: none; border: none; line-height: 1;
+  }
+  .popup-tag {
+    display: inline-block;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+  .popup-title { font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 0.6rem; }
+  .popup-body { font-size: 13.5px; line-height: 1.7; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<!-- POPUP -->
+<div id="popup-overlay" class="popup-overlay" onclick="closePopup(event)">
+  <div class="popup">
+    <button class="popup-close" onclick="closePopup()">&times;</button>
+    <div class="popup-tag" id="popup-tag"></div>
+    <div class="popup-title" id="popup-title"></div>
+    <div class="popup-body" id="popup-body"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">ENGL 4605 — Kafka</span>
+  <div class="nav-links">
+    <a onclick="scroll('essay')">Essay</a>
+    <a onclick="scroll('close-reading')">Close reading</a>
+    <a onclick="scroll('works-cited')">Works cited</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg-bugs">
+    <span style="top:10%;left:4%;transform:rotate(18deg)">🪲</span>
+    <span style="top:55%;left:90%;transform:rotate(-25deg)">🪳</span>
+    <span style="top:25%;left:78%;transform:rotate(8deg)">🐛</span>
+    <span style="top:75%;left:12%;transform:rotate(42deg)">🪲</span>
+    <span style="top:8%;left:52%;transform:rotate(-12deg)">🐜</span>
+    <span style="top:85%;left:65%;transform:rotate(30deg)">🪳</span>
+    <span style="top:40%;left:35%;transform:rotate(-5deg)">🐛</span>
+  </div>
+  <div class="hero-label">Spring 2026 — Language &amp; Literature</div>
+  <h1 class="hero-title">The <em>Metamorphosis</em><br>by Franz Kafka</h1>
+  <div class="hero-meta">Instructor <strong>Prof. Olivia Badoi</strong></div>
+</div>
+
+<!-- THEME KEY -->
+<div class="section">
+  <div class="section-label">Theme key</div>
+  <div class="section-title" style="margin-bottom:1rem;">Color legend</div>
+  <div class="key-grid">
+    <div class="key-card green">
+      <div class="key-card-label">Green</div>
+      <div class="key-card-text">Industrialization &amp; Kafka's entrapment in modern industrial society</div>
+    </div>
+    <div class="key-card purple">
+      <div class="key-card-label">Purple</div>
+      <div class="key-card-text">Gregor's split psyche &amp; Kafka's marginalization as a Jew in the Czech Republic</div>
+    </div>
+    <div class="key-card coral">
+      <div class="key-card-label">Coral</div>
+      <div class="key-card-text">Gregor's complex family relationship &amp; Kafka's estrangement from his father</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXTUAL ESSAY -->
+<div class="section" id="essay">
+  <div class="section-label">Contextual essay</div>
+  <div class="section-title">Alienation, Identity &amp; the Industrial Self</div>
+  <div class="theme-pills">
+    <span class="pill pill-green">🟢 Industrialization</span>
+    <span class="pill pill-purple">🟣 Jewish identity &amp; marginalization</span>
+    <span class="pill pill-coral">🟠 Family &amp; father</span>
+  </div>
+  <p class="essay-note">Click any highlighted passage to explore the theme.</p>
+
+  <div class="essay-body">
+    <p>Many writers have utilized their own lives as inspiration for their craft, and <em>The Metamorphosis</em> by Franz Kafka is no different. Born in Prague, Czech Republic (then Austria-Hungary) at the turn of the twentieth century, Kafka always envisioned being a writer. However, he studied law and worked at an insurance company to make a living. One of Kafka's most notable works is <em>The Metamorphosis</em>, published in 1915. <em>The Metamorphosis</em> follows a man named Gregor and his transition from human to bug form. Gregor feels a sense of detachment and entrapment after he loses his human agency and ability to be understood by others, with Kafka having experienced a similar metamorphosis of his own that ended in his alienation. <span class="hl hl-purple" onclick="showPopup('purple','Kafka\'s personal experience &amp; Gregor\'s isolation','Kafka\'s three defining experiences — industrialization, his Jewish identity, and his estrangement from his father — each left him feeling invisible and marginalized. He channels all three into Gregor\'s transformation, making the novella deeply autobiographical.')">Kafka's personal experiences, such as his work in the age of industrialization, his Jewish identity, and his estrangement from his father, informed the way in which he described Gregor, with both individuals feeling a sense of immense isolation, marginalization, and invisibility.</span></p>
+
+    <p><span class="hl hl-green" onclick="showPopup('green','Industrialization &amp; the stripping of identity','The Second Industrial Revolution transformed work across Europe into repetitive, dehumanizing labor. Workers were no longer seen as individuals but as economic units — a transformation Kafka experienced firsthand in his demanding bureaucratic job in Prague.')">The social and economic changes of the Second Industrial Revolution help explain Kafka's depiction of Gregor's alienation. Industrialization across Europe occurred quickly, transforming work into repetitive administrative labor that stripped workers of individuality and personal identity. Many people became defined primarily by their economic productivity rather than their personal lives, desires, or identities.</span> Kafka experienced this himself while working in Prague. Although he dreamed of pursuing writing full-time, he worked in a demanding bureaucratic position that he described as exhausting and draining. The job that was supposed to bring him joy and freedom led to more dread. While his job provided financial stability and allowed him to support his father's business, it also reinforced his sense of entrapment within modern industrial society.</p>
+
+    <p>This experience is reflected in Gregor's situation at the beginning of <em>The Metamorphosis</em>. Gregor works as a traveling salesman to try to pay off his family's debts. As the novel progresses, we as readers see his identity become tied to his ability to work and earn money. <span class="hl hl-green" onclick="showPopup('green','Gregor\'s work anxiety after transformation','Even after waking as an insect, Gregor\'s first thoughts are about missing his train and angering his boss. Kafka uses a torrent of panicked questions to show how completely Gregor\'s identity has been colonized by his labor obligations.')">When Gregor suddenly awakens as an insect, his whole world changes, but his main focus is on missing work and angering his employer. When he sees the clock and sees its "half past six" he immediately thought "Had the alarm clock not rung" — followed by "What should he do now? The next clock went at seven; if he were to catch that he would have to rush like mad and the collection of stamps was still not packed" (Kafka, p. 3).</span> These statements show how worried he is about having missed his usual train and is panicking because he is not ready and is worrying about making it on time to his job. He furthermore worries about his boss's anger at his lateness, stating "even if he did catch the train he would not be able to avoid his boss's anger as the office assistant would have been there already" (Kafka, p. 3) — showing how he is increasingly more panicked and worried about the situation through the use of constant questions.</p>
+
+    <p>As Minar argues in "Shame and Alienation in Kafka's <em>The Metamorphosis</em>," Gregor's alienation intensifies as he begins to see himself through others' judgments, suggesting that identity becomes unstable when we rely on external feelings for recognition (Minar). Gregor's anxiety about productivity demonstrates how completely his identity has been shaped by labor and his ability. This demonstrates the pressures of modern industrial society that Kafka himself experienced. <span class="hl hl-green" onclick="showPopup('green','Gregor stamped back into his room','Gregor\'s forced return to his room, where he remains hidden and isolated, literalizes the way industrial society confines those who can no longer contribute economically. His retreat is not chosen — it is enforced.')">For example, when his father stamps him into his room despite him trying to communicate, "his appeals were not understood" and he eventually realises "he had no choice" but to go back (Kafka, p. 19).</span> Since then he mainly stays in his room — and when his sister initially offers food, she is "so shocked that she lost control of herself" when she sees his head, which he had "pushed forward to the edge of the couch" (Kafka, p. 24), and leaves. This makes Gregor realize that he has to hide, which he does the next time she enters as she "slowly turns the key in the lock as a sign to him that he should withdraw," which he does, hurrying "back under the couch" (Kafka, p. 25).</p>
+
+    <p><span class="hl hl-coral" onclick="showPopup('coral','Gregor\'s transactional family bonds','Gregor\'s relationship with his family has always been economic rather than emotional. His parents accept his money gratefully but offer little warmth in return — a dynamic that collapses entirely once he can no longer work.')">A central aspect of <em>The Metamorphosis</em> is Gregor's complex relationship with his family, one that bears many similarities to Kafka's experience with his father. In <em>The Metamorphosis</em>, Gregor serves as his family's sole economic provider, but never seems to have a deep relationship with his parents. Gregor reflects that his parents "took the money with gratitude and he was glad to provide it, although there was no longer much warm affection given in return" (Kafka, p. 31). This description suggests that Gregor's relationship with his family is largely transactional, collapsing entirely as he loses his job and his ability to provide.</span></p>
+
+    <p>As the story progresses, the relationship between Gregor and his family plunges deeper into conflict and anger, with Gregor's father throwing an apple at him that injures him permanently. <span class="hl hl-coral" onclick="showPopup('coral','Kafka\'s letter to his father','In his famous unsent letter, Kafka reveals that his father\'s domineering treatment made him feel alienated from his own body — the same estrangement Gregor experiences waking as an insect. Both men feel their interiority contradicted and denied by external forces.')">Kafka himself had a similar fraught relationship with his father. In a letter to his father, he wrote that because of his father's treatment, he "became unsure even of the thing nearest to me, my own body" (Kafka). This is the same experience Gregor has when he becomes an insect overnight and loses his human form, as Gregor also experiences a discrepancy between his perceived internal identity and new bodily form. Kafka also wrote to his father that "all these thoughts, seemingly independent of you, were from the beginning burdened with your belittling judgments; it was almost impossible to endure this and still work out a thought with any measure of completeness and permanence" (Kafka).</span> Kafka's relationship with his father changes his perspective on his own efficacy, leading him to feel immense self-doubt and distress due to his father's condescending and overbearing nature.</p>
+
+    <p>Similarly, Kafka portrays Gregor as experiencing such belittling by his family that he chooses to die at the end of the story. <span class="hl hl-coral" onclick="showPopup('coral','Gregor\'s death as self-erasure','Gregor\'s sister reducing him to \"it\" is the final dehumanization. His death is not surrender — it is an act of acceptance, shaped by years of being made to feel like a burden. Kafka draws directly on his own sense of worthlessness before his father.')">Gregor's sister even says, "we must try to get rid of it," meaning Gregor, reducing him to a mere object rather than a beloved family member (Kafka, p. 52). Shortly after this comment, Gregor stops resisting his ending and dies. Here, he frees his family from the burden Gregor sees himself as, evidenced by his comment that "his own thought that he had to disappear was, if possible, even more decisive than his sister's" (Kafka, p. 27).</span> Gregor's belief that he inflicted suffering and inconvenience on his family, and that he was instead better off disappearing, bears similarities to Kafka's conception of himself as useless and incompetent in comparison to his father.</p>
+
+    <p><span class="hl hl-purple" onclick="showPopup('purple','Antisemitism &amp; civic exclusion','Scholar Walter Sokel argues that financial success became the only substitute for the social belonging denied to Jewish people in Kafka\'s era. Stripped of language, culture, religious practice, and civic participation, the Jewish community\'s worth was reduced entirely to economic output — exactly the fate that befalls Gregor.')">In addition to a feeling of worthlessness and estrangement from his own body due to relations with his own father, the broader public's treatment of Kafka's Jewish identity helps explain the isolating way in which he depicts Gregor. In the late nineteenth century, Kafka's home country, the Czech Republic, experienced "radical, virulent, and rapidly growing anti-Semitism" (Sokel, p. 840). Scholar Walter Sokel notes that in the Jewish community at the time, "financial success and prosperity were substitutes for lost roots and traditions, compensation for a language, culture, and religious faith…and compensation as well for the lack of that full civic participation" (Sokel, p. 842). Sokel emphasizes that when one loses opportunity for social belonging, they turn to other focuses like labor.</span> As a result, the Jewish community suffered a holistic loss across various forms of human expression and connection, traits also exemplified by Gregor's objectification and lack of ties to others in the social world.</p>
+
+    <p>Kafka's experience of alienation thus has a strong link to his choice to depict Gregor as a bug, disconnected from society. <span class="hl hl-purple" onclick="showPopup('purple','Gregor\'s unapproachable world','Gregor\'s sense that people are \"unapproachable\" mirrors the lived experience of Jewish individuals in Kafka\'s Prague — excluded from social life regardless of their desire to belong. Both Gregor and Kafka are present in their worlds yet unable to participate in them.')">Gregor's sense of isolation from society is clear when he reflects on "strangers or people he had already forgotten, but instead of helping him and his family, they were all unapproachable, and he was happy to see them disappear" (Kafka, p. 22). Gregor's feeling that others are "unapproachable" mirrors the experience of Jewish individuals living in Kafka's era, who were stripped of civic and social life regardless of their desire for belonging.</span> Gregor's utility and belonging had been reduced to labor and resulting income, just as Kafka experienced being part of a marginalized group solely reduced to economic output. Ultimately, Kafka's life as a marginalized individual connects to his depiction of Gregor as an insect that cannot be understood by or connect with the society in which he lives.</p>
+
+    <p>In <em>The Metamorphosis</em>, Kafka transforms Gregor into an insect, but the story not only reflects physical change but also a deeper human experience drawn from Kafka's own life. The pressures of industrialization reduced individuals to their productivity, something we as readers see firsthand in his work in Prague, mirrored in Gregor's anxiety about work. Kafka has a strained relationship with his father, which we see reflected in Gregor's painful interactions with his own family: "He had filled his pockets with fruit from the bowl on the sideboard and now, without even taking the time for careful aim, threw one apple after another" (Kafka, p. 30). Furthermore, the social isolation Kafka experienced as a Jewish man in an era surrounded by antisemitism further explains Gregor's inability to connect with the world around him. Drawing from these experiences, Kafka portrays Gregor not only as a transformed insect but as a symbol of alienation, ultimately leading to his death. Once Gregor was no longer physically recognizable and accepted, he no longer served a purpose. Through Gregor's story, Kafka reveals how social pressures, family dynamics, and cultural marginalization can strip a person of their humanity and identity.</p>
+  </div>
+</div>
+
+<!-- CLOSE READING -->
+<div class="section" id="close-reading">
+  <div class="section-label">Close reading</div>
+  <div class="section-title">Scene analysis — Gregor's release from his room</div>
+  <p class="cr-intro">In this scene, Gregor is finally released from his room and desperately tries to make contact with both his family and his boss, the chief clerk. Unable to speak, Gregor helplessly squeaks at his family and boss alike, who are utterly horrified at his new vermin form.</p>
+
+  <div class="analysis-card">
+    <div class="analysis-tag" style="background:var(--purple-bg);color:var(--purple-text)">Gregor's split psyche &amp; Kafka's marginalization</div>
+    <div class="quote-block">"Mother, mother," said Gregor gently…. He had forgotten the chief clerk for the moment, but could not help himself snapping in the air with his jaws at the sight of the flow of coffee.</div>
+    <div class="analysis-body">
+      <p style="margin-bottom:0.75rem">Gregor, still retaining his human mind, attempts to make contact with his mother. Kafka's use of the word "gentle" emphasizes Gregor's desire not to burden his family, which reiterates his prioritization of his family and work above his own wellbeing. Gregor does not wish to suffer in front of his family, but instead ease their concerns.</p>
+      <p style="margin-bottom:0.75rem">Moments later, however, he is unable to restrain himself from "snapping in the air with his jaws." Gregor's body cannot withhold its animalistic urges, representing the fragility of his new identity. Gregor's transformation was not all-encompassing: while his body has assumed a new form, his mind remains entirely human and is similarly concerned with his prior commitments to his family and work.</p>
+      <p>Gregor's inability to connect with the world around him, and the disjunction between his mind and body, mimics Kafka's own marginalized identity as a Jew in the Czech Republic. Socially estranged from society due to virulent antisemitism, Kafka, like Gregor, was unable to express himself.</p>
+    </div>
+  </div>
+
+  <div class="analysis-card">
+    <div class="analysis-tag" style="background:var(--green-bg);color:var(--green-text)">Industrialization &amp; Kafka's entrapment</div>
+    <div class="quote-block green">"Gregor, though, had no time to spare for his parents now; the chief clerk had already reached the stairs… Gregor made a run for him; he wanted to be sure of reaching him…"</div>
+    <div class="analysis-body">
+      <p style="margin-bottom:0.75rem">Although Gregor initially attempts to reach out to his mother, he urgently redirects his attention to his boss — revealing Gregor's overwhelming anxiety about hampering his work performance. Throughout the first chapter, Gregor ignores the shocking transformation of his body and instead concerns himself with upsetting his boss. Gregor's inability to direct his attention away from work and his boss emphasizes the working culture of the Second Industrial Revolution, where workers were stripped of their rights and completely subordinated to the demands of the workforce.</p>
+      <p>Gregor's persistent anxiety about his job makes him feel as though he has "no time to spare" for anyone but his boss, and that he must make "a run for him" in order to justify his tardiness that morning. Gregor's exasperation emphasizes Kafka's own entrapment as a worker during the Second Industrial Revolution, when he worked tirelessly as a bureaucrat in Prague to make a meager living and support his father's business — like Gregor.</p>
+    </div>
+  </div>
+
+  <div class="analysis-card">
+    <div class="analysis-tag" style="background:var(--coral-bg);color:var(--coral-text)">Family relationship &amp; Kafka's strained relationship with his father</div>
+    <div class="quote-block coral">"Gregor's father seized the chief clerk's stick in his right hand… picked up a large newspaper from the table with his left, and used them to drive Gregor back into his room, stamping his foot at him as he went."</div>
+    <div class="analysis-body">
+      <p style="margin-bottom:0.75rem">Gregor's father is his biggest threat throughout the novel, physically endangering him and showing little to no sympathy for his horrific transformation. In this scene, Gregor and his father are foils of each other: while Gregor earnestly attempts to make contact with his family, his father aggressively dismisses him. To his father, Gregor is no more than a bug, even though his transformation occurred only the night before. Kafka's language emphasizes the power imbalance between Gregor and his father — he combatively describes Gregor's father as "seizing" a stick, "driving" Gregor away, and "stamping" his feet at him as he does so.</p>
+      <p style="margin-bottom:0.75rem">The imagery of Gregor's father towering over his small, vermin form parallels the troubled relationship between Kafka and his own father. In a letter to his father, Kafka reveals that his father's mistreatment of him led to a feeling of "detachment" from his own body. Gregor parallels this detachment when his mind is alienated by his insect body. Kafka also attests to his father's constant criticism and belittlement in his letter, which Gregor's father mirrors in his nearly-instant rejection of Gregor when he can no longer financially contribute to their family.</p>
+      <p>Not only do the attacks of Gregor's father embody the belittling comments Kafka scorns his father for — Gregor's transformation into a bug reflects how those comments made Kafka feel: dejected and unwanted.</p>
+    </div>
+  </div>
+
+  <p style="font-size:13.5px;color:var(--text-muted);font-style:italic;max-width:680px;margin-top:0.5rem">Altogether, the imagery and word choice Kafka employs to depict Gregor's suffering mimics the conditions of his own world, and his feeling of marginalization not only within his own family, but also as a worker during the Second Industrial Revolution and a Jewish man in the Czech Republic.</p>
+</div>
+
+<!-- WORKS CITED -->
+<div class="section" id="works-cited">
+  <div class="section-label">References</div>
+  <div class="section-title">Works Cited</div>
+  <div class="works-cited">
+    <p>Kafka, Franz. "Letter to My Father." <em>Pdfcoffee.Com</em>, pdfcoffee.com/kafka-letter-to-my-father-pdf-free.html.</p>
+    <p>Kafka, Franz. Translated by Ian Johnston. <em>The Metamorphosis</em>, Jan. 1999, dn721904.ca.archive.org/0/items/the-metamorphosis/the-metamorphosis.pdf.</p>
+    <p>Minar, Karla S. "Shame and alienation in Kafka's <em>The Metamorphosis</em>." <em>Poetika</em> 2017.</p>
+    <p>Sokel, Walter H. "Kafka as a Jew." <em>New Literary History</em>, vol. 30, no. 4, 1999, pp. 837–53. JSTOR, http://www.jstor.org/stable/20057574.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-left">ENGL 4605 — The Metamorphosis — Spring 2026</span>
+  <span class="footer-right">Prof. Olivia Badoi</span>
+</footer>
+
+<script>
+  function scroll(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  }
+
+  const popupColors = {
+    green:  { tagBg: '#C8DFA0', tagColor: '#254A07', label: 'Industrialization' },
+    purple: { tagBg: '#D0CDFB', tagColor: '#342D96', label: 'Jewish identity & marginalization' },
+    coral:  { tagBg: '#F7C9B7', tagColor: '#6E2510', label: 'Family & father' },
+  };
+
+  function showPopup(type, title, body) {
+    const c = popupColors[type];
+    const tag = document.getElementById('popup-tag');
+    tag.textContent = c.label;
+    tag.style.background = c.tagBg;
+    tag.style.color = c.tagColor;
+    document.getElementById('popup-title').textContent = title;
+    document.getElementById('popup-body').textContent = body;
+    document.getElementById('popup-overlay').classList.add('open');
+  }
+
+  function closePopup(e) {
+    if (!e || e.target === document.getElementById('popup-overlay') || e.target.classList.contains('popup-close')) {
+      document.getElementById('popup-overlay').classList.remove('open');
+    }
+  }
+</script>
+</body>
+</html>
